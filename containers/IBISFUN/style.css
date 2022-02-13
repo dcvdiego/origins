@@ -1,0 +1,318 @@
+html,body {
+  font-family: 'Raleway', sans-serif;
+  padding: 1em 2em;
+  font-size: 18px;
+  background-color: #222;
+  color: #aaa;
+}
+
+h1,h2 {
+  font-weight: 200;
+  margin: 0.4em 0;
+}
+h1 { font-size: 3.5em; }
+h2 {
+  color: #888;
+  font-size: 2em;
+}
+#formbutton {
+  margin-top: 20px;
+  line-height: 60px;
+  font-weight: bold;
+  padding: 0 40px;
+  background: gray;
+  border: none;
+}
+#formbutton:hover {
+  background: lightgray;
+}
+input[type="text"] {
+    display: block;
+    margin-bottom: 10px;
+    background-color: gray;
+  font-color: lightgray;
+  font-size: 20px;
+}
+input[type="email"] {
+    display: block;
+    margin-bottom: 10px;
+    background-color: gray;
+  font-color: lightgray;
+  font-size: 20px;
+}
+input[type="date"] {
+    display: block;
+    margin-bottom: 10px;
+    background-color: gray;
+  font-color: lightgray;
+  font-size: 20px;
+}
+input[type="password"] {
+    display: block;
+    margin-bottom: 10px;
+    background-color: gray;
+  font-color: lightgray;
+  font-size: 20px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.sidenav {
+    height: 100%; 
+    width: 0;
+    position: fixed;
+    z-index: 1; 
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden; 
+    padding-top: 60px;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+.sidenav button {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    background: none;
+  border: none;
+}
+.sidenav form {
+    text-decoration: none;
+    background: none;
+  border: none;
+}
+
+
+.sidenav button:hover, .offcanvas button:focus{
+    color: #f1f1f1;
+}
+
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+#menubutt {
+  width: 35px;
+    height: 5px;
+    background-color: lightgray;
+    margin: 6px 0;
+}
+
+.dropbtn_physics {
+    background-color: #990000;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn_chemistry {
+    background-color: #4CA64C;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn_math {
+    background-color: #000099;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn_econ {
+    background-color: #CCCC00;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn_bisne {
+    background-color: #660066;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.btn_answerA {
+    background-color: #990000;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  margin: auto;
+  float: center;
+}
+.btn_answerB {
+    background-color: #660066;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  margin: auto;
+    float: center;
+}
+.btn_answerC {
+    background-color: #CCCC00;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  margin: auto;
+    float: center;
+}
+.btn_answerD {
+    background-color: #4CA64C;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  margin: auto;
+    float: center;
+}
+.buttonHolder {
+  text-align: center;
+}
+.btn_answerA:hover {background-color: #A31919}
+.btn_answerB:hover {background-color: #470047}
+.btn_answerC:hover {background-color: #D6D632}
+.btn_answerD:hover {background-color: #3e8e41}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn_chemistry {
+    background-color: #3e8e41;
+}
+.dropdown:hover .dropbtn_physics {
+    background-color: #A31919;
+}
+.dropdown:hover .dropbtn_math {
+    background-color: #00006B;
+}
+.dropdown:hover .dropbtn_econ {
+    background-color: #D6D632;
+}
+.dropdown:hover .dropbtn_bisne {
+    background-color: #470047;
+}
+#question_box {
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 25px;
+  margin: auto;
+  padding: 3px;
+  
+}
+#question_box h3{
+  color: black;
+}
+.alertW {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+}
+.alertR {
+    padding: 20px;
+    background-color: #4CAF50; 
+    color: white;
+    margin-bottom: 15px;
+}
+.alertT {
+    padding: 20px;
+    background-color: #0000E5; 
+    color: white;
+    margin-bottom: 15px;
+}
+
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}
+#reason {
+    border: 2px solid red;
+    display: none;
+  background-color: white;
+  color: black;
+}
+.editor {
+  width: 500px;
+  height: 500px;
+  background-color: white;
+}
