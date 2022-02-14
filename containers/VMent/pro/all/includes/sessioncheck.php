@@ -1,5 +1,5 @@
 <?php if (logged_in() === false) {
-	header("Location: index.php");
+	header("Location: beta.php");
   exit();
 } 
 ?>

@@ -33,20 +33,20 @@ include("./all/includes/notificationcheck.php");
 	<?php
 $n = 0;
 while (block_count($session_user_id) > $n) {
-	$query = mysql_query("SELECT `user_id` FROM `friends` WHERE `active` = 2 AND $session_user_id != `user_id` AND `friend_id` = $session_user_id LIMIT $n, 100");
-	$num_rows = mysql_num_rows($query);
+	$query = mysqli_query("SELECT `user_id` FROM `friends` WHERE `active` = 2 AND $session_user_id != `user_id` AND `friend_id` = $session_user_id LIMIT $n, 100");
+	$num_rows = mysqli_num_rows($query);
 	$beforeid = $friend_data["user_id"];
   if ($num_rows > 0) {
-	 $friend_id = mysql_result($query, 0);
+	 $friend_id = mysqli_data_seek($query, 0);
 	 } else {
-	 $query = mysql_query("SELECT `friend_id` FROM `friends` WHERE `active` = 2 AND `user_id` = $session_user_id");
-	 $num_rows = mysql_num_rows($query);
+	 $query = mysqli_query("SELECT `friend_id` FROM `friends` WHERE `active` = 2 AND `user_id` = $session_user_id");
+	 $num_rows = mysqli_num_rows($query);
 	 if ($num_rows > $n) {
-	 $friend_id = mysql_result($query, $n);
+	 $friend_id = mysqli_data_seek($query, $n);
 	 } else {
-	  $friend_id = mysql_result($query, $n-1);
+	  $friend_id = mysqli_data_seek($query, $n-1);
 	  if ($friend_data = $friend_id) {
-	  $friend_id = mysql_result($query, 0);
+	  $friend_id = mysqli_data_seek($query, 0);
 	  }
 	  }
 	 }

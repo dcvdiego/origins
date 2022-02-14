@@ -1,5 +1,8 @@
 <?php
 $connect_error = "Sorry, we're experiencing some connection issues, yeah I know, just go outside and do something productive";
-mysql_connect("mysql6.000webhost.com","a1193563_dcv","idontcare3") or die($connect_error);
-mysql_select_db("a1193563_dcv") or die ($connect_error);
-?>
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$connect = mysqli_connect("localhost", "root", "", "ibisfun");
+if (mysqli_connect_errno()) {
+    echo $connect_error . mysqli_connect_error();
+    exit();
+}

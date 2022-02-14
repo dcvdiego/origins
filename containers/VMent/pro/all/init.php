@@ -21,8 +21,3 @@ if (logged_in() === true) {
 }
 $friend_requests_count = friend_requests_count($session_user_id);
 $errors = array();
-?>
-<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width" />
-	<link type= "text/css" rel="stylesheet" href="./css/stylesheet.css" />
-	<link rel="shortcut icon" href="Logo.ico" />

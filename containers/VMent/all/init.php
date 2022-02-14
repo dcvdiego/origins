@@ -18,7 +18,7 @@ if (logged_in() === true) {
 		header("Location: changepassword.php?force");
 		exit();
 	}
+	$friend_requests_count = friend_requests_count($session_user_id);
 }
-$friend_requests_count = friend_requests_count($session_user_id);
+
 $errors = array();
-?>
