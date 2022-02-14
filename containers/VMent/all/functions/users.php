@@ -47,8 +47,9 @@ function vment_data($post_id)
 		return $data;
 	}
 }
-function block_count($connect, $user_id)
+function block_count($user_id)
 {
+	global $connect;
 	return mysqli_num_rows(mysqli_query($connect, "SELECT `id` FROM `friends` WHERE `active` = 2 AND `user_id` = $user_id OR `friend_id` = $user_id"));
 }
 function unblock($connect, $user_id, $friend_id)
@@ -64,11 +65,11 @@ function block_check($connect, $user_id, $friend_id)
 		return $mysqli_num_rows;
 	}
 }
-function make_post($connect, $user_id, $friend_id, $content, $content_type)
+function make_post($user_id, $friend_id, $content, $content_type)
 {
 	$post_data = array(
-		"from" 		=> $user_id,
-		"to" 		=> $friend_id,
+		"from_id" 		=> $user_id,
+		"to_id" 		=> $friend_id,
 		"content" 	=> $content,
 		"content_type" => $content_type,
 		"date" 		=> date("Y/m/d")
@@ -83,8 +84,9 @@ function make_post_apply($post_data)
 	$data = "'" . implode("', '", $post_data) . "'";
 	mysqli_query($connect, "INSERT INTO `posts` ($fields) VALUES ($data)");
 }
-function change_profile_image($connect, $user_id, $file_temp, $file_extn)
+function change_profile_image($user_id, $file_temp, $file_extn)
 {
+	global $connect;
 	$file_path = "upload/profile/" .  substr(md5(time()), 0, 10) . "." . $file_extn;
 	move_uploaded_file($file_temp, $file_path);
 	mysqli_query($connect, "UPDATE `users` SET `profile` = '$file_path' WHERE `user_id` = " . (int)$user_id);

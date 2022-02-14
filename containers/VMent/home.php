@@ -31,7 +31,7 @@ include("./all/includes/notificationcheck.php");
 		</div>
 		<a href="settings.php" class="buttons" style="margin-top: 6px; float: left; margin-right: 10px; margin-left: 10px;">Settings</a>
 		<a href="friends.php" id="friends" class="buttons" style="margin-top: 6px; float: left; margin-right: 10px; margin-left: 10px;">Friends</a>
-		<a href="#" style="margin-left: -250px;" onclick="this.style.display = 'none'; document.getElementById('searchdiv').style.display = 'inline-block'" id="searchIcon" class="buttons">
+		<a href="#" style="margin-left: 0px;" onclick="this.style.display = 'none'; document.getElementById('searchdiv').style.display = 'inline-block'" id="searchIcon" class="buttons">
 			<img style="width: 40px;" src="http://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Magnifying_glass_icon.svg/490px-Magnifying_glass_icon.svg.png">
 		</a>
 		<div id="searchdiv" class="fields" style="margin: 0; display: inline-block;">

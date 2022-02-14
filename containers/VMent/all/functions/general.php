@@ -26,7 +26,7 @@ function make_poststuff($post_data)
 function poststuff($user_id, $type, $post_id)
 {
 	global $connect;
-	$check_if_exists = mysqli_result(mysqli_query($connect, "SELECT `user_id` FROM `poststuff` WHERE `post_id` = $post_id AND `type` = $type"));
+	$check_if_exists = mysqli_data_seek(mysqli_query($connect, "SELECT `user_id` FROM `poststuff` WHERE `post_id` = $post_id AND `type` = $type"), 0);
 	if ($check_if_exists = null) {
 		$post_data = array(
 			"post_id" 		=> $post_id,
