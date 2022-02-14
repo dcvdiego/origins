@@ -64,10 +64,22 @@ include("./all/includes/notificationcheck.php");
 	}
 	$n = 0;
 	while (post_count($session_user_id) > $n) {
+		function mysqli_result($res, $row = 0, $col = 0)
+		{
+			$numrows = mysqli_num_rows($res);
+			if ($numrows && $row <= ($numrows - 1) && $row >= 0) {
+				mysqli_data_seek($res, $row);
+				$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+				if (isset($resrow[$col])) {
+					return $resrow[$col];
+				}
+			}
+			return false;
+		}
 		$query = mysqli_query($connect, "SELECT `post_id` FROM `posts` WHERE $session_user_id = `to_id` ORDER BY  `posts`.`post_id` DESC LIMIT $n, 100");
 		$num_rows = mysqli_num_rows($query);
 		if ($num_rows > 0) {
-			$post_id = mysqli_data_seek($query, 0);
+			$post_id = mysqli_result($query, 0);
 		} else {
 			echo "No data recieved! WEIRD -,-";
 		}

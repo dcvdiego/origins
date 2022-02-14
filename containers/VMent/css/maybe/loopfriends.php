@@ -10,12 +10,12 @@ while (post_count($session_user_id) > $n) {
 ?>
 	<div id="general_post">
 		<h4>
-			<?php echo post_data["from"];
-			echo post_data["date"]; ?>
+			<?php echo $post_data["from_id"];
+			echo $post_data["date"]; ?>
 		</h4>
-		<?php echo post_data["content"];
-		echo post_data["cool"];
-		echo post_data["no"];
+		<?php echo $post_data["content"];
+		echo $post_data["cool"];
+		echo $post_data["no"];
 		?>
 	</div>
 <?php

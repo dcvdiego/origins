@@ -143,7 +143,7 @@ function friend_request_apply($request_data)
 function friend_requests_count($friend_id)
 {
 	global $connect;
-	// return mysqli_num_rows(mysqli_query($connect, "SELECT `id` FROM `friends` WHERE `active` = 0 AND `friend_id` = $friend_id"));
+	return mysqli_num_rows(mysqli_query($connect, "SELECT `id` FROM `friends` WHERE `active` = 0 AND `friend_id` = $friend_id"));
 	//SQL error for some reason, TODO: fix!
 	return 0;
 }

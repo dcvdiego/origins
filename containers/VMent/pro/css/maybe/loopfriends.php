@@ -6,11 +6,11 @@ while (post_count($session_user_id) > $n) {
 	if ($num_rows > 0) {
 		$post_id = mysqli_data_seek($query, 0);
 	}
-	$post_data = post_data($post_id, "from_id", "to", "content", "content_type", "no", "cool", "date");
+	$post_data = post_data($post_id, "from_id", "to_id", "content", "content_type", "no", "cool", "date");
 ?>
 	<div id="general_post">
 		<h4>
-			<?php echo post_data["from"];
+			<?php echo post_data["from_id"];
 			echo post_data["date"]; ?>
 		</h4>
 		<?php echo post_data["content"];

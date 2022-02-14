@@ -67,8 +67,8 @@ function block_check($connect, $user_id, $friend_id)
 function make_post($connect, $user_id, $friend_id, $content, $content_type)
 {
 	$post_data = array(
-		"from" 		=> $user_id,
-		"to" 		=> $friend_id,
+		"from_id" 		=> $user_id,
+		"to_id" 		=> $friend_id,
 		"content" 	=> $content,
 		"content_type" => $content_type,
 		"date" 		=> date("Y/m/d")
