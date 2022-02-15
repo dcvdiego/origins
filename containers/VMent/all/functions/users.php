@@ -1,5 +1,17 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/origins/containers/VMent/all/database/connect.php";
+function mysqli_result($res, $row = 0, $col = 0)
+{
+	$numrows = mysqli_num_rows($res);
+	if ($numrows && $row <= ($numrows - 1) && $row >= 0) {
+		mysqli_data_seek($res, $row);
+		$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+		if (isset($resrow[$col])) {
+			return $resrow[$col];
+		}
+	}
+	return false;
+}
 function doc_data($doc_id)
 {
 	global $connect;
@@ -10,7 +22,7 @@ function doc_data($doc_id)
 	if ($func_num_args > 1) {
 		unset($func_get_args[0]);
 		$fields = '`' . implode('`, `', (array)$func_get_args) . '`';
-		$data =  mysqli_fetch_assoc(mysqli_query($connect, "SELECT $fields FROM `docs` WHERE `doc_id` = $post_id"));
+		$data =  mysqli_fetch_assoc(mysqli_query($connect, "SELECT $fields FROM `docs` WHERE `doc_id` = $doc_id"));
 		return $data;
 	}
 }
@@ -33,7 +45,7 @@ function post_data($post_id)
 		return $data;
 	}
 }
-function vment_data($post_id)
+function vment_data($user_id, $post_id)
 {
 	global $connect;
 	$data = array();
@@ -96,7 +108,7 @@ function block($connect, $user_id, $friend_id)
 	function exist_check($friend_id, $user_id)
 	{
 		global $connect;
-		return (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`id`) FROM `friends` WHERE `friend_id` = $friend_id AND `user_id` = $user_id OR `friend_id` = $user_id AND `user_id` = $friend_id"), 0) == 1) ? true : false;
+		return (mysqli_result(mysqli_query($connect, "SELECT COUNT(`id`) FROM `friends` WHERE `friend_id` = $friend_id AND `user_id` = $user_id OR `friend_id` = $user_id AND `user_id` = $friend_id"), 0) == 1) ? true : false;
 	}
 	if (exist_check($friend_id, $user_id) === false) {
 		$request_data = array(
@@ -182,7 +194,7 @@ function update_user($user_id, $update_data)
 	global $connect;
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
-	$register_data["password"] = md5($register_data["password"]);
+	$update_data["password"] = md5($update_data["password"]);
 	foreach ($update_data as $field => $data) {
 		$update[] = "`" . $field . "` = '" . $data . "'";
 	}
@@ -191,9 +203,9 @@ function update_user($user_id, $update_data)
 function activate($email, $email_code)
 {
 	global $connect;
-	$email = mysqli_real_escape_string($email);
-	$email_code = mysqli_real_escape_string($email_code);
-	if (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `email_code` = '$email_code' AND `active` = 0"), 0) == 1) {
+	$email = mysqli_real_escape_string($connect, $email);
+	$email_code = mysqli_real_escape_string($connect, $email_code);
+	if (mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `email_code` = '$email_code' AND `active` = 0"), 0) == 1) {
 		mysqli_query($connect, "UPDATE `users` SET `active` = 1 WHERE `email` = '$email'");
 		return true;
 	} else {
@@ -215,12 +227,12 @@ function register_user($register_data)
 	$fields = '`' . implode('`, `', array_keys($register_data)) . '`';
 	$data = "'" . implode("', '", $register_data) . "'";
 	mysqli_query($connect, "INSERT INTO `users` ($fields) VALUES ($data)");
-	email($register_data["email"], "Activate your ACCOUNT!", "Hello" . $register_data["firstname"] . ", \n\nYou need to activate your ACCOUNT! Thanks for actually taking your time (and now I know you are not a robot) Alright, to activate your account, click on the link BELOW:\n\n http://vment.comli.com/activate.php?email=" . $register_data["email"] . "&email_code=" . $register_data["email_code"] . "\n\n -The VMENT Team (Basically Diego :D) DCV.Inc!");
+	email($register_data["email"], "Activate your ACCOUNT!", "Hello" . $register_data["firstname"] . ", \n\nYou need to activate your ACCOUNT! Thanks for actually taking your time (and now I know you are not a robot) Alright, to activate your account, click on the link BELOW:\n\n http://localhost/activate.php?email=" . $register_data["email"] . "&email_code=" . $register_data["email_code"] . "\n\n -The VMENT Team (Basically Diego :D) DCV.Inc!");
 }
 function user_count()
 {
 	global $connect;
-	return mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1"), 0);
+	return mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1"), 0);
 }
 function user_data($user_id)
 {
@@ -244,34 +256,22 @@ function user_exists($username)
 {
 	global $connect;
 	$username = sanitize($username);
-	return (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username'"), 0) == 1) ? true : false;
+	return (mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username'"), 0) == 1) ? true : false;
 }
 function email_exists($email)
 {
 	global $connect;
 	$email = sanitize($email);
-	return (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email'"), 0) == 1) ? true : false;
+	return (mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email'"), 0) == 1) ? true : false;
 }
 function user_active($username)
 {
 	global $connect;
 	$username = sanitize($username);
-	return (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `active` = 1"), 0) == 1) ? true : false;
+	return (mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `active` = 1"), 0) == 1) ? true : false;
 }
 function user_id_from_username($username)
 {
-	function mysqli_result($res, $row = 0, $col = 0)
-	{
-		$numrows = mysqli_num_rows($res);
-		if ($numrows && $row <= ($numrows - 1) && $row >= 0) {
-			mysqli_data_seek($res, $row);
-			$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
-			if (isset($resrow[$col])) {
-				return $resrow[$col];
-			}
-		}
-		return false;
-	}
 	global $connect;
 	$username = sanitize($username);
 	return mysqli_result(mysqli_query($connect, "SELECT `user_id` FROM `users` WHERE `username` = '$username'"), 0, "user_id");
@@ -280,7 +280,7 @@ function user_id_from_email($email)
 {
 	global $connect;
 	$email = sanitize($email);
-	return mysqli_data_seek(mysqli_query($connect, "SELECT `user_id` FROM `users` WHERE `email` = '$email'"), 0, "user_id");
+	return mysqli_result(mysqli_query($connect, "SELECT `user_id` FROM `users` WHERE `email` = '$email'"), 0, "user_id");
 }
 function login($username, $password)
 {
@@ -288,5 +288,5 @@ function login($username, $password)
 	$user_id = user_id_from_username($username);
 	$username = sanitize($username);
 	$password = md5($password);
-	return (mysqli_data_seek(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `password` = '$password'"), 0) == 1) ? $user_id : false;
+	return (mysqli_result(mysqli_query($connect, "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `password` = '$password'"), 0) == 1) ? $user_id : false;
 }

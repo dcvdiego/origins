@@ -1,12 +1,24 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/origins/containers/VMent/all/database/connect.php";
+function mysqli_result($res, $row = 0, $col = 0)
+{
+	$numrows = mysqli_num_rows($res);
+	if ($numrows && $row <= ($numrows - 1) && $row >= 0) {
+		mysqli_data_seek($res, $row);
+		$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+		if (isset($resrow[$col])) {
+			return $resrow[$col];
+		}
+	}
+	return false;
+}
 function update_post($post_id, $user_id)
 {
 	global $connect;
-	$result = mysqli_data_seek(mysqli_query($connect, "SELECT `type` FROM `poststuff` WHERE `post_id` = $post_id AND `user_id` = $user_id"), 0);
+	$result = mysqli_result(mysqli_query($connect, "SELECT `type` FROM `poststuff` WHERE `post_id` = $post_id AND `user_id` = $user_id"), 0);
 	if ($result !== null) {
 		if ($result === "no") {
-			$actual_count = mysqli_data_seek(mysqli_query($connect, "SELECT `'$result'` FROM `posts` WHERE `post_id` = $post_id"), 0);
+			$actual_count = mysqli_result(mysqli_query($connect, "SELECT `'$result'` FROM `posts` WHERE `post_id` = $post_id"), 0);
 			mysqli_query($connect, "UPDATE `posts` SET `$result` = $actual_count+1 WHERE `post_id` = $post_id");
 		} //else stuff
 		//not working (doesnt delete)
@@ -26,7 +38,7 @@ function make_poststuff($post_data)
 function poststuff($user_id, $type, $post_id)
 {
 	global $connect;
-	$check_if_exists = mysqli_data_seek(mysqli_query($connect, "SELECT `user_id` FROM `poststuff` WHERE `post_id` = $post_id AND `type` = $type"), 0);
+	$check_if_exists = mysqli_result(mysqli_query($connect, "SELECT `user_id` FROM `poststuff` WHERE `post_id` = $post_id AND `type` = $type"), 0);
 	if ($check_if_exists = null) {
 		$post_data = array(
 			"post_id" 		=> $post_id,
@@ -92,15 +104,15 @@ function rank_check($rank)
 function update_rank($user_id)
 {
 	global $connect;
-	if (mysqli_data_seek(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 10) {
+	if (mysqli_result(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 10) {
 		mysqli_query($connect, "UPDATE `users` SET `rank` = 1 WHERE `user_id` = $user_id");
-	} else if (mysqli_data_seek(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 20) {
+	} else if (mysqli_result(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 20) {
 		mysqli_query($connect, "UPDATE `users` SET `rank` = 2 WHERE `user_id` = $user_id");
-	} else if (mysqli_data_seek(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 31) {
+	} else if (mysqli_result(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 31) {
 		mysqli_query($connect, "UPDATE `users` SET `rank` = 3 WHERE `user_id` = $user_id");
-	} else if (mysqli_data_seek(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 42) {
+	} else if (mysqli_result(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 42) {
 		mysqli_query($connect, "UPDATE `users` SET `rank` = 4 WHERE `user_id` = $user_id");
-	} else if (mysqli_data_seek(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 55) {
+	} else if (mysqli_result(mysqli_query($connect, "SELECT `log_in` FROM `users` WHERE `user_id` = $user_id"), 0) == 55) {
 		mysqli_query($connect, "UPDATE `users` SET `rank` = 5 WHERE `user_id` = $user_id");
 	}
 }
